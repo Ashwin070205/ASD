@@ -282,7 +282,9 @@ else:
 
 
 # ================= LOAD MODELS =================
-scaler = joblib.load(r"C:\Users\HP\OneDrive\Desktop\ASD\ASD\scaler.pkl")
+import os
+BASE_DIR = os.path.dirname(__file__)
+scaler = joblib.load(os.path.join(BASE_DIR, "scaler.pkl"))
 tabular_model = joblib.load(r"C:\Users\HP\OneDrive\Desktop\ASD\ASD\logistic_regression_model.sav")
 
 image_model = tf.keras.models.load_model(
