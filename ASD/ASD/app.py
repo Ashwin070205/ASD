@@ -17,7 +17,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import inch
 from reportlab.lib import colors
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(__file__)
 SESSION_DIR = os.path.join(BASE_DIR, "sessions")
 os.makedirs(SESSION_DIR, exist_ok=True)
 
@@ -37,8 +37,7 @@ def load_sessions(username):
     with open(file, newline="", encoding="utf-8") as f:
         return list(csv.reader(f))[1:]
 
-USERS_FILE = "users.json"
-
+USERS_FILE = os.path.join(BASE_DIR, "users.json")
 def load_users():
     if os.path.exists(USERS_FILE):
         with open(USERS_FILE, "r", encoding="utf-8") as f:
@@ -146,7 +145,7 @@ def generate_report(
     image_path
 ):
 
-    file_name = f"ASD_Report_{username}.pdf"
+    file_name = os.path.join(BASE_DIR, f"ASD_Report_{username}.pdf")
 
     styles = getSampleStyleSheet()
     story = []
@@ -285,10 +284,10 @@ else:
 import os
 BASE_DIR = os.path.dirname(__file__)
 scaler = joblib.load(os.path.join(BASE_DIR, "scaler.pkl"))
-tabular_model = joblib.load(r"C:\Users\HP\OneDrive\Desktop\ASD\ASD\logistic_regression_model.sav")
+tabular_model = joblib.load(os.path.join(BASE_DIR, "logistic_regression_model.sav"))
 
 image_model = tf.keras.models.load_model(
-    r"C:\Users\HP\OneDrive\Desktop\ASD\ASD\asd_cnn_model1.keras"
+    os.path.join(BASE_DIR, "asd_cnn_model1.keras")
 )
 
 class_names = ["Autistic", "Non_Autistic"]
@@ -577,7 +576,7 @@ if submit and uploaded_image:
         
     # ---------- Generate Report ----------
     # save uploaded image
-    image_path = f"temp_{st.session_state.user}.jpg"
+    image_path = os.path.join(BASE_DIR, f"temp_{st.session_state.user}.jpg")
     image.save(image_path)
 
     answers = {
@@ -663,7 +662,7 @@ if submit_feedback:
         comment
     ]
 
-    with open("feedback.csv", "a", newline="", encoding="utf-8") as f:
+    with open(os.path.join(BASE_DIR, "feedback.csv"), "a", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(feedback_data)
 
